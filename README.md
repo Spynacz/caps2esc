@@ -1,3 +1,5 @@
+This is a fork of https://gitlab.com/interception/linux/plugins/caps2esc that adds ctrl as caps.
+
 # caps2esc
 
 _Transforming the most useless key **ever** in the most useful one._
