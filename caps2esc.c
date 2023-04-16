@@ -25,13 +25,16 @@ void print_usage(FILE *stream, const char *program) {
             "    -t         delay used for key sequences (default: 20000 microseconds)\n"
             "    -m mode    0: default\n"
             "                  - caps as esc/ctrl\n"
-            "                  - esc as caps\n"
+            "                  - ctrl as caps\n"
             "               1: minimal\n"
             "                  - caps as esc/ctrl\n"
             "               2: useful on 60%% layouts\n"
             "                  - caps as esc/ctrl\n"
             "                  - esc as grave accent\n"
-            "                  - grave accent as caps\n",
+            "                  - grave accent as caps\n"
+	    "               3: original\n"
+	    "                  - caps as esc/ctrl\n"
+	    "                  - esc as caps\n",
             program);
     // clang-format on
 }
@@ -49,7 +52,7 @@ void write_event_with_mode(struct input_event *event, int mode) {
     if (event->type == EV_KEY)
         switch (mode) {
             case 0:
-                if (event->code == KEY_ESC)
+                if (event->code == KEY_LEFTCTRL)
                     event->code = KEY_CAPSLOCK;
                 break;
             case 2:
@@ -61,6 +64,10 @@ void write_event_with_mode(struct input_event *event, int mode) {
                         event->code = KEY_CAPSLOCK;
                         break;
                 }
+                break;
+	    case 3:
+                if (event->code == KEY_ESC)
+                    event->code = KEY_CAPSLOCK;
                 break;
         }
     write_event(event);
